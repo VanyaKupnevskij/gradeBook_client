@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import tamplateDataModal, { titles } from '../../constants/tamplateDataModal';
 import { useWorkersHttp } from '../../helpers/workersHttp.hook';
 
-function WorkersModule() {
+function LinkModule() {
   const { loading, error, deleteWorker, createWorker, requestWorkers } = useWorkersHttp();
 
   const [workers, setWorkers] = useState([]);
@@ -133,4 +133,4 @@ function WorkersModule() {
   );
 }
 
-export default WorkersModule;
+export default LinkModule;

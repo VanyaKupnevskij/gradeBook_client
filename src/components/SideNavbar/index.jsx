@@ -3,25 +3,14 @@ import styles from './style.module.scss';
 import { Link } from 'react-router-dom';
 
 import IconLink from '../../ui/IconLink';
-import {
-  LogoutIcon,
-  GraphicIcon,
-  WorkersIcon,
-  RecordsIcon,
-  GeneralIcon,
-  ProjectsIcon,
-  ContactsIcon,
-  HomeIcon,
-} from '../../ui/Icon';
+import { LogoutIcon, RecordsIcon, ContactsIcon, HomeIcon, WorkersIcon } from '../../ui/Icon';
 
 import profileImage from '../../ui/images/default_avatar.png';
 import { useAuth } from '../../hooks/auth.hook';
 import Loading from '../../ui/Loading';
-import { useProject } from '../../hooks/projects.hook';
 
 function SideNavbar({ currentTab }) {
-  const { isAuthorization, logout, ready } = useAuth();
-  const { hasSelected } = useProject();
+  const { isAuthorization, logout, ready, role } = useAuth();
 
   function handleClickLogout() {
     logout();
@@ -46,43 +35,15 @@ function SideNavbar({ currentTab }) {
 
       {isAuthorization && (
         <>
-          <IconLink
-            linkPath="/projects"
-            icon={<ProjectsIcon />}
-            isActive={currentTab === 'projects'}>
-            Проекти
-          </IconLink>
-
-          {hasSelected && (
-            <>
-              <h4>Деталі</h4>
-              <IconLink
-                linkPath="/general"
-                icon={<GeneralIcon />}
-                isActive={currentTab === 'general'}>
-                Основне
-              </IconLink>
-              <IconLink
-                linkPath="/records"
-                icon={<RecordsIcon />}
-                isActive={currentTab === 'records'}>
-                Записи
-              </IconLink>
-              <IconLink
-                linkPath="/workers"
-                icon={<WorkersIcon />}
-                isActive={currentTab === 'workers'}>
-                Працівники
-              </IconLink>
-              <IconLink
-                linkPath="/graphics"
-                icon={<GraphicIcon />}
-                isActive={currentTab === 'graphics'}>
-                Графіки
-              </IconLink>
-            </>
+          {role === 'admin' ? (
+            <IconLink linkPath="/link" icon={<WorkersIcon />} isActive={currentTab === 'link'}>
+              Зв'язання
+            </IconLink>
+          ) : (
+            <IconLink linkPath="/marks" icon={<RecordsIcon />} isActive={currentTab === 'marks'}>
+              Записи
+            </IconLink>
           )}
-
           <IconLink
             className={styles.logout_link}
             icon={<LogoutIcon />}

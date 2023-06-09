@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAction, logoutAction } from '../modules/AuthorizationModule/store/reducer';
-import { useProject } from './projects.hook';
 
 const storageName = 'userData_gradebook';
 
 export function useAuth() {
   const [ready, setReady] = useState(false);
-  const { diselectProject } = useProject();
   const { isAuthorization, name, email, role, name_subject, token } = useSelector(
     (state) => state.auth,
   );
@@ -19,7 +17,6 @@ export function useAuth() {
 
   const logout = useCallback(() => {
     dispatch(logoutAction());
-    diselectProject();
   }, []);
 
   useEffect(() => {

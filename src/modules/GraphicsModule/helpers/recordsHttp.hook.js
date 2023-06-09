@@ -1,14 +1,12 @@
 import { useAuth } from '../../../hooks/auth.hook';
 import { useHttp } from '../../../hooks/http.hook';
-import { useProject } from '../../../hooks/projects.hook';
 
 export function useRecordsHttp() {
   const { loading, request, error } = useHttp();
-  const { selectedId } = useProject();
   const { token } = useAuth();
 
   async function requestRecords(params) {
-    params.projects_id = selectedId;
+    // params.projects_id = selectedId;
 
     try {
       const responceRecords = await request({
@@ -45,7 +43,7 @@ export function useRecordsHttp() {
     } catch (e) {}
   }
   async function createRecord(newDataRecord) {
-    newDataRecord.projects_id = selectedId;
+    // newDataRecord.projects_id = selectedId;
 
     try {
       const responceRecord = await request({

@@ -3,18 +3,18 @@ import pageGlobalStyles from '../../../pageGlobalStyle.module.scss';
 import globalStyles from '../../../../styles/global.module.scss';
 
 import SideNavbar from '../../../../components/SideNavbar';
-import ProjectsModule from '../../../../modules/ProjectsModule';
+import LinkModule from '../../../../modules/LinkModule/components/ModuleMain';
 
-function ProjectsPage() {
+function LinkPage() {
   return (
     <div className={globalStyles.container}>
       <div className={globalStyles.inner}>
-        <SideNavbar currentTab="projects" />
+        <SideNavbar currentTab="link" />
 
         <div className={pageGlobalStyles.content}>
-          <h1 className={pageGlobalStyles.title}>Проекти</h1>
+          <h1 className={pageGlobalStyles.title}>Зв'язання вчителів з учнями</h1>
           <div className={pageGlobalStyles.content_inner}>
-            <ProjectsModule />
+            <LinkModule />
           </div>
         </div>
       </div>
@@ -22,4 +22,4 @@ function ProjectsPage() {
   );
 }
 
-export default ProjectsPage;
+export default LinkPage;
