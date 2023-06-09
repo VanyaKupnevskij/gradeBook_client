@@ -25,11 +25,32 @@
 
   background-color: $panel_color;
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__title {
     margin: 0;
 
     font-weight: 400;
     font-size: pxToRem(20px);
+  }
+
+  &__delete {
+    width: pxToRem(25px);
+    height: pxToRem(25px);
+
+    background-image: url(../../../images/delete.svg);
+    background-position: center;
+    background-size: contain;
+
+    transition: all 200ms;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1);
+    }
   }
 
   .list_student {

@@ -68,13 +68,18 @@ function LinkModule() {
         teachers.map((teacher) => {
           return (
             <div key={teacher._id} className={styles.teacher}>
-              <h2 className={styles.teacher__title}>
-                Ім'я:
-                <i> {teacher.name}</i>
-                <br />
-                Предмет:
-                <i> {teacher.name_subject}</i>
-              </h2>
+              <div className={styles.teacher__header}>
+                <h2 className={styles.teacher__title}>
+                  Ім'я:
+                  <i> {teacher.name}</i>
+                  <br />
+                  Предмет:
+                  <i> {teacher.name_subject}</i>
+                </h2>
+                <span
+                  className={styles.teacher__delete}
+                  onClick={() => handleClickDelete(teacher._id)}></span>
+              </div>
               <ul className={styles.list_student}>
                 {students.map((student) => {
                   return (
