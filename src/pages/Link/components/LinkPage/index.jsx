@@ -13,9 +13,7 @@ function LinkPage() {
 
         <div className={pageGlobalStyles.content}>
           <h1 className={pageGlobalStyles.title}>Зв'язання вчителів з учнями</h1>
-          <div className={pageGlobalStyles.content_inner}>
-            <LinkModule />
-          </div>
+          <LinkModule />
         </div>
       </div>
     </div>

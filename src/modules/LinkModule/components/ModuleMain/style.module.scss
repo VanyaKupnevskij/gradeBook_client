@@ -1,10 +1,90 @@
 @import '../../../../styles/variables.scss';
 @import '../../../../styles/mixins.scss';
 
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap_block;
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .error_message {
   color: $red_color;
 }
 
-.table {
-  max-height: 70vh;
+.teacher {
+  display: flex;
+  flex-direction: column;
+  gap: pxToRem(20px);
+
+  padding: pxToRem(20px);
+
+  border-radius: $border_radius;
+
+  background-color: $panel_color;
+
+  &__title {
+    margin: 0;
+
+    font-weight: 400;
+    font-size: pxToRem(20px);
+  }
+
+  .list_student {
+    margin: 0;
+    padding: 0;
+  }
+
+  .student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: pxToRem(20px);
+
+    &__select {
+      width: pxToRem(25px);
+      height: pxToRem(25px);
+
+      background-image: url(../../../images/plus.svg);
+      background-position: center;
+      background-size: contain;
+
+      border-radius: pxToRem(5px);
+      border: 2px dashed $black_color;
+
+      transition: all 200ms;
+      cursor: pointer;
+
+      &:hover {
+        border-radius: pxToRem(10px);
+      }
+
+      &_active {
+        background-image: url(../../../images/selected.svg);
+        border: 2px dashed transparent;
+      }
+    }
+
+    &__text {
+      margin-right: auto;
+    }
+
+    &__delete {
+      width: pxToRem(25px);
+      height: pxToRem(25px);
+
+      background-image: url(../../../images/delete.svg);
+      background-position: center;
+      background-size: contain;
+
+      transition: all 200ms;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
 }

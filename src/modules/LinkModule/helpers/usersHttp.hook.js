@@ -1,38 +1,39 @@
 import { useAuth } from '../../../hooks/auth.hook';
 import { useHttp } from '../../../hooks/http.hook';
 
-export function useWorkersHttp() {
+export function useUsersHttp() {
   const { loading, request, error } = useHttp();
   const { token } = useAuth();
 
-  async function requestWorkers() {
+  async function requestUsers() {
     try {
-      const responceWorkers = await request({
-        url: '/workers',
+      const responce = await request({
+        url: '/auth',
         method: 'get',
         bearerToken: token,
       });
 
-      return responceWorkers;
+      return responce;
     } catch (e) {}
   }
 
-  async function createWorker(newDataWorker) {
-    try {
-      const responceWorker = await request({
-        url: '/workers/create',
-        method: 'post',
-        bearerToken: token,
-        data: newDataWorker,
-      });
-
-      return responceWorker;
-    } catch (e) {}
-  }
-  async function deleteWorker(id) {
+  async function updateUser(id, data) {
     try {
       const responce = await request({
-        url: '/workers/' + id,
+        url: '/auth/' + id,
+        method: 'put',
+        data: data,
+        bearerToken: token,
+      });
+
+      return responce;
+    } catch (e) {}
+  }
+
+  async function deleteUser(id) {
+    try {
+      const responce = await request({
+        url: '/auth/' + id,
         method: 'delete',
         bearerToken: token,
       });
@@ -42,9 +43,9 @@ export function useWorkersHttp() {
   }
 
   return {
-    deleteWorker,
-    createWorker,
-    requestWorkers,
+    deleteUser,
+    requestUsers,
+    updateUser,
     loading,
     error,
   };

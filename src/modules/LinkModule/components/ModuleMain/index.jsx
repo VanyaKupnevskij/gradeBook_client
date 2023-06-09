@@ -1,101 +1,59 @@
 import styles from './style.module.scss';
 
 import Loading from '../../../../ui/Loading';
-import Table from '../../../../components/Table';
-import Modal from '../../../../components/Modal';
 
 import { useEffect, useState } from 'react';
-import tamplateDataModal, { titles } from '../../constants/tamplateDataModal';
-import { useWorkersHttp } from '../../helpers/workersHttp.hook';
+import { useUsersHttp } from '../../helpers/usersHttp.hook';
 
 function LinkModule() {
-  const { loading, error, deleteWorker, createWorker, requestWorkers } = useWorkersHttp();
+  const { loading, error, deleteUser, requestUsers, updateUser } = useUsersHttp();
 
-  const [workers, setWorkers] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [renderList, setRenderList] = useState([]);
-  const [regimModal, setRegimModal] = useState('view');
-  const [dataModal, setDataModal] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    loadWorkers();
+    loadUsers();
   }, []);
 
-  async function loadWorkers() {
-    const responceWorkers = await requestWorkers();
+  async function loadUsers() {
+    const responceUsers = await requestUsers();
 
-    setWorkers(responceWorkers);
+    let tempListTeachers = [];
+    let tempListStudents = [];
 
-    const formatedList = makeFormatedList(responceWorkers);
-
-    setRenderList(formatedList);
-  }
-
-  function makeFormatedList(inputList) {
-    const resultList = inputList.map((worker) => {
-      return {
-        full_name: worker.full_name,
-        money_account: worker.money_account,
-        realm: worker.realm,
-        salary: worker.salary + ' грн.',
-      };
-    });
-
-    return resultList;
-  }
-
-  function handleClickRow(index) {
-    setRegimModal('view');
-
-    const tempDataModal = JSON.parse(JSON.stringify(tamplateDataModal));
-
-    for (const [key, value] of Object.entries(workers[index])) {
-      if (tempDataModal[key]) {
-        let formatedValue = value ?? 'Не задано';
-
-        tempDataModal[key].value = formatedValue;
+    for (let user of responceUsers) {
+      if (user.role === 'teacher') {
+        tempListTeachers.push(user);
+      } else if (user.role === 'student') {
+        tempListStudents.push(user);
       }
     }
 
-    setDataModal(Object.values(tempDataModal));
-    setShowModal(true);
-  }
-
-  function handleClickCreate() {
-    setRegimModal('create');
-
-    const tempDataModal = JSON.parse(JSON.stringify(tamplateDataModal));
-
-    setDataModal(Object.values(tempDataModal));
-    setShowModal(true);
-  }
-
-  function handleCloseModal() {
-    setShowModal(false);
+    setTeachers(tempListTeachers);
+    setStudents(tempListStudents);
   }
 
   async function handleClickDelete(id) {
-    handleCloseModal();
+    await deleteUser(id);
 
-    await deleteWorker(id);
-
-    await loadWorkers();
+    await loadUsers();
   }
 
-  async function handleSubmitModal(newValues) {
-    const formatedValues = {};
-
-    for (let parameter of newValues) {
-      formatedValues[parameter.name] = parameter.value;
+  async function handleSelectStudent(teacher, studentId) {
+    if (teacher.students.some((stud) => stud === studentId)) {
+      teacher.students.splice(teacher.students.indexOf(studentId), 1);
+    } else {
+      teacher.students.push(studentId);
     }
 
-    if (regimModal === 'create') {
-      await createWorker(formatedValues);
-    }
+    await updateUser(teacher._id, {
+      name: teacher.name,
+      role: teacher.role,
+      name_subject: teacher.name_subject,
+      students: teacher.students,
+    });
 
-    handleCloseModal();
-
-    await loadWorkers();
+    await loadUsers();
   }
 
   if (loading) {
@@ -103,33 +61,46 @@ function LinkModule() {
   }
 
   return (
-    <>
-      {showModal && (
-        <Modal
-          title={'Деталі працівника'}
-          datas={dataModal}
-          onClose={handleCloseModal}
-          onClickDelete={handleClickDelete}
-          onChange={handleSubmitModal}
-          hasDelete
-          isInput={regimModal === 'create'}
-          regimModal={regimModal}
-        />
-      )}
+    <div className={styles.root}>
       {error ? (
         <div className={styles.error_message}>{error.message}</div>
       ) : (
-        <Table
-          className={styles.table}
-          titles={titles}
-          contents={renderList}
-          hasFilter={false}
-          hasCreate
-          onClick={handleClickRow}
-          onClickCreate={handleClickCreate}
-        />
+        teachers.map((teacher) => {
+          return (
+            <div key={teacher._id} className={styles.teacher}>
+              <h2 className={styles.teacher__title}>
+                Ім'я:
+                <i> {teacher.name}</i>
+                <br />
+                Предмет:
+                <i> {teacher.name_subject}</i>
+              </h2>
+              <ul className={styles.list_student}>
+                {students.map((student) => {
+                  return (
+                    <li key={student._id} className={styles.student}>
+                      <span
+                        className={`${styles.student__select} ${
+                          teacher.students.some((stud) => stud === student._id)
+                            ? styles.student__select_active
+                            : ''
+                        }`}
+                        onClick={() => handleSelectStudent(teacher, student._id)}></span>
+                      <p className={styles.student__text}>
+                        {student.name} {'<' + student.email + '>'}
+                      </p>
+                      <span
+                        className={styles.student__delete}
+                        onClick={() => handleClickDelete(student._id)}></span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })
       )}
-    </>
+    </div>
   );
 }
 
