@@ -1,6 +1,6 @@
 {
-  "short_name": "Buisnes service",
-  "name": "Buisnes service for manager",
+  "short_name": "Grade Book",
+  "name": "Grade Book service for teachers and Students",
   "icons": [
     {
       "src": "favicon.ico",
