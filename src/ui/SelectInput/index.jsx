@@ -30,7 +30,7 @@ function SelectInput({
         id={name}
         name={name}>
         {placeholder && (
-          <option value="" disabled>
+          <option key={0} value="" disabled>
             {placeholder}
           </option>
         )}

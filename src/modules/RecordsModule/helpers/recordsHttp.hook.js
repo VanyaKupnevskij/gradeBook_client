@@ -21,11 +21,13 @@ export function useRecordsHttp() {
     let resultList = [];
 
     try {
-      const listStudentsId = await request({
-        url: '/auth/self',
-        method: 'get',
-        bearerToken: token,
-      });
+      const listStudentsId = (
+        await request({
+          url: '/auth/self',
+          method: 'get',
+          bearerToken: token,
+        })
+      ).students;
 
       for (let studentId of listStudentsId) {
         const responceStudent = await request({

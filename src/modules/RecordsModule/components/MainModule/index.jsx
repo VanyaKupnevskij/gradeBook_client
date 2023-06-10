@@ -78,7 +78,9 @@ function RecordsModule() {
       let formatedStudents = [];
 
       for (let student of responceStudents) {
-        const studentRecords = responceRecords.filter((record) => record.to._id === student._id);
+        const studentRecords = responceRecords.filter((record, ind) => {
+          return record?.to?._id === student.id;
+        });
 
         formatedStudents.push({
           name: student.name,
@@ -89,10 +91,12 @@ function RecordsModule() {
       setRecords(responceRecords);
       setStudents(formatedStudents);
 
-      const formatedList = makeFormatedList(responceRecords.resultRecords);
+      // const formatedList = makeFormatedList(responceRecords.resultRecords);
 
-      setRenderList(formatedList);
-    } catch (e) {}
+      // setRenderList(formatedList);
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   function makeFormatedList(inputList) {
@@ -202,39 +206,50 @@ function RecordsModule() {
         <div className={styles.error_message}>{error.message}</div>
       ) : (
         <>
-          <SelectInput name={'year'} label={'Рік'} options={yearsOptions} />
-          <SelectInput name={'month'} label={'Місяць'} options={monthOptions} />
+          <div className={styles.top_control}>
+            <SelectInput name={'year'} label={'Рік'} options={yearsOptions} />
+            <SelectInput name={'month'} label={'Місяць'} options={monthOptions} />
+          </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th className={styles.td_name}>Ім'я</th>
-                {daysListMarks.map((day) => {
-                  return <th key={day}>{day}</th>;
+          <div className={styles.table_wrapper}>
+            <table>
+              <thead>
+                <tr key={0}>
+                  <th key={0} className={styles.td_name}>
+                    Ім'я
+                  </th>
+                  {daysListMarks.map((day) => {
+                    return <th key={day}>{day}</th>;
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student) => {
+                  return (
+                    <tr key={student._id}>
+                      <td key={0} className={styles.td_name}>
+                        {student.name}
+                      </td>
+                      {daysListMarks.map((day) => {
+                        const record = student.recordsInfo.find((record) => {
+                          return (
+                            new Date(record.date).toDateString() ===
+                            new Date('2023-06-' + day).toDateString()
+                          );
+                        });
+
+                        if (!record) {
+                          return <td key={day}></td>;
+                        } else {
+                          return <td key={day}>{record.mark}</td>;
+                        }
+                      })}
+                    </tr>
+                  );
                 })}
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((student) => {
-                return (
-                  <tr key={student._id}>
-                    <td className={styles.td_name}>{student.name}</td>
-                    {daysListMarks.map((day) => {
-                      const record = student.recordsInfo.find(
-                        (record) => record.date === new Date('2023-06-' + day),
-                      );
-
-                      if (!record) {
-                        return <td key={day}></td>;
-                      } else {
-                        return <td key={day}>{record.mark}</td>;
-                      }
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
           {/* <Table
             titles={titles}
             contents={renderList}

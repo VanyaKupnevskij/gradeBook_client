@@ -63,20 +63,6 @@ function MainPage() {
                       className={styles.top__slider}
                       style={{ '--offset-slider': offsetSlider + '%' }}>
                       <div className={styles.top__slider_item}>
-                        <img
-                          className={styles.top__slider_img}
-                          src={slider_img2Image}
-                          alt="image slider"
-                        />
-                        <div className={styles.top__slider_info}>
-                          <h2 className={styles.top__slider_title}>Нагни бізнес!</h2>
-                          <p className={styles.top__slider_text}>
-                            З нашим сервісом ви зможете вирватися вперед у керуванні бізнесом. Він
-                            стане повністю контрольованим та підвласним вам
-                          </p>
-                        </div>
-                      </div>
-                      <div className={styles.top__slider_item}>
                         <div className={styles.top__slider_info}>
                           <h2 className={styles.top__slider_title}>Радій від роботи</h2>
                           <p className={styles.top__slider_text}>
@@ -103,6 +89,20 @@ function MainPage() {
                           src={slider_img3Image}
                           alt="image slider"
                         />
+                      </div>
+                      <div className={styles.top__slider_item}>
+                        <img
+                          className={styles.top__slider_img}
+                          src={slider_img2Image}
+                          alt="image slider"
+                        />
+                        <div className={styles.top__slider_info}>
+                          <h2 className={styles.top__slider_title}>Нагни бізнес!</h2>
+                          <p className={styles.top__slider_text}>
+                            З нашим сервісом ви зможете вирватися вперед у керуванні бізнесом. Він
+                            стане повністю контрольованим та підвласним вам
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>

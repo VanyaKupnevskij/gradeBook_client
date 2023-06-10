@@ -41,7 +41,7 @@ a {
 
 *::-webkit-scrollbar {
   width: max(pxToRem(4px), 2px);
-  height: max(pxToRem(4px), 2px);
+  height: max(pxToRem(8px), 5px);
 }
 
 *::-webkit-scrollbar-thumb {
