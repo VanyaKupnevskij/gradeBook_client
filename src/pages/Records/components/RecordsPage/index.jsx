@@ -13,9 +13,7 @@ function RecordsPage() {
 
         <div className={pageGlobalStyles.content}>
           <h1 className={pageGlobalStyles.title}>Записи</h1>
-          <div className={pageGlobalStyles.content_inner}>
-            <RecordsModule />
-          </div>
+          <RecordsModule />
         </div>
       </div>
     </div>

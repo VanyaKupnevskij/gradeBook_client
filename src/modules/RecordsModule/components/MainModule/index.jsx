@@ -7,20 +7,48 @@ import Table from '../../../../components/Table';
 
 import tamplateDataModal, { titles } from '../../constants/tamplateDataModal';
 import { useRecordsHttp } from '../../helpers/recordsHttp.hook';
+import SelectInput from '../../../../ui/SelectInput';
+
+const daysListMarks = Array(31)
+  .fill(0)
+  .map((day, index) => index + 1);
+
+const yearsOptions = Array(30)
+  .fill({ key: 2010, value: 2010 })
+  .map((day, index) => {
+    const year = day.value + index;
+    return { key: year, value: year };
+  });
+
+const monthOptions = [
+  { key: 0, value: 'Січень' },
+  { key: 1, value: 'Лютий' },
+  { key: 2, value: 'Березень' },
+  { key: 3, value: 'Квітень' },
+  { key: 4, value: 'Травень' },
+  { key: 5, value: 'Червень' },
+  { key: 6, value: 'Липень' },
+  { key: 7, value: 'Серпень' },
+  { key: 8, value: 'Вересень' },
+  { key: 9, value: 'Жовтень' },
+  { key: 10, value: 'Листопад' },
+  { key: 11, value: 'Грудень' },
+];
 
 function RecordsModule() {
   const {
     loading,
     error,
+    role,
     deleteRecord,
     createRecord,
     updateRecord,
-    requestWorkers,
     requestRecords,
+    requestStudents,
   } = useRecordsHttp();
 
   const [records, setRecords] = useState([]);
-  const [workers, setWorkers] = useState([]);
+  const [students, setStudents] = useState([]);
   const [renderList, setRenderList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [regimModal, setRegimModal] = useState('update');
@@ -45,10 +73,21 @@ function RecordsModule() {
       }
 
       const responceRecords = await requestRecords(params);
-      const responceWorkers = await requestWorkers();
+      const responceStudents = await requestStudents();
+
+      let formatedStudents = [];
+
+      for (let student of responceStudents) {
+        const studentRecords = responceRecords.filter((record) => record.to._id === student._id);
+
+        formatedStudents.push({
+          name: student.name,
+          recordsInfo: studentRecords,
+        });
+      }
 
       setRecords(responceRecords);
-      setWorkers(responceWorkers);
+      setStudents(formatedStudents);
 
       const formatedList = makeFormatedList(responceRecords.resultRecords);
 
@@ -75,13 +114,6 @@ function RecordsModule() {
     setRegimModal('update');
 
     const tempDataModal = JSON.parse(JSON.stringify(tamplateDataModal));
-    tempDataModal.worker_full_name.options = workers.map((worker) => {
-      return { key: worker.full_name, value: worker.full_name };
-    });
-    tempDataModal.worker_full_name.options.push({
-      key: null,
-      value: 'Не задано',
-    });
 
     for (const [key, value] of Object.entries(records.resultRecords[index])) {
       if (tempDataModal[key]) {
@@ -115,39 +147,6 @@ function RecordsModule() {
 
   async function handleSubmitModal(newValues) {
     const formatedValues = {};
-    let income = null;
-    let costs = null;
-    let already_paid = null;
-    let worker_full_name = null;
-
-    for (let parameter of newValues) {
-      formatedValues[parameter.name] = parameter.value;
-
-      switch (parameter.name) {
-        case 'income':
-          income = parameter.value;
-          break;
-        case 'costs':
-          costs = parameter.value;
-          break;
-        case 'already_paid':
-          already_paid = parameter.value;
-          break;
-        case 'worker_full_name':
-          worker_full_name = parameter.value;
-          break;
-      }
-    }
-
-    formatedValues.income = {
-      price: income,
-    };
-
-    formatedValues.costs = {
-      workers_id: workers.find((worker) => worker.full_name === worker_full_name)?.id,
-      price: costs,
-      already_paid: already_paid,
-    };
 
     if (regimModal === 'update') {
       await updateRecord(formatedValues);
@@ -176,13 +175,6 @@ function RecordsModule() {
     setRegimModal('create');
 
     const tempDataModal = JSON.parse(JSON.stringify(tamplateDataModal));
-    tempDataModal.worker_full_name.options = workers.map((worker) => {
-      return { key: worker.full_name, value: worker.full_name };
-    });
-    tempDataModal.worker_full_name.options.push({
-      key: null,
-      value: 'Не задано',
-    });
 
     setDataModal(Object.values(tempDataModal));
     setShowModal(true);
@@ -193,7 +185,7 @@ function RecordsModule() {
   }
 
   return (
-    <>
+    <div className={styles.root}>
       {showModal && (
         <Modal
           title={'Деталі запису'}
@@ -210,7 +202,40 @@ function RecordsModule() {
         <div className={styles.error_message}>{error.message}</div>
       ) : (
         <>
-          <Table
+          <SelectInput name={'year'} label={'Рік'} options={yearsOptions} />
+          <SelectInput name={'month'} label={'Місяць'} options={monthOptions} />
+
+          <table>
+            <thead>
+              <tr>
+                <th className={styles.td_name}>Ім'я</th>
+                {daysListMarks.map((day) => {
+                  return <th key={day}>{day}</th>;
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {students.map((student) => {
+                return (
+                  <tr key={student._id}>
+                    <td className={styles.td_name}>{student.name}</td>
+                    {daysListMarks.map((day) => {
+                      const record = student.recordsInfo.find(
+                        (record) => record.date === new Date('2023-06-' + day),
+                      );
+
+                      if (!record) {
+                        return <td key={day}></td>;
+                      } else {
+                        return <td key={day}>{record.mark}</td>;
+                      }
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {/* <Table
             titles={titles}
             contents={renderList}
             onClick={handleClickRow}
@@ -222,10 +247,10 @@ function RecordsModule() {
             endDateValue={filterDate.end_date}
             typeFileter="date"
             hasCreate
-          />
+          /> */}
         </>
       )}
-    </>
+    </div>
   );
 }
 

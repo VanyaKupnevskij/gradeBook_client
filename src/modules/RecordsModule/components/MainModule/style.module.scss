@@ -1,6 +1,31 @@
 @import '../../../../styles/variables.scss';
 @import '../../../../styles/mixins.scss';
 
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: $gap_block;
+  flex-grow: 1;
+  overflow: auto;
+}
+
 .error_message {
   color: $red_color;
+}
+
+table {
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px;
+    width: 20px;
+    height: 20px;
+
+    border: 1px solid $primary_dark2_color;
+  }
+
+  .td_name {
+    min-width: 250px;
+  }
 }

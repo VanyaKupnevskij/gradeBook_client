@@ -3,33 +3,44 @@ import { useHttp } from '../../../hooks/http.hook';
 
 export function useRecordsHttp() {
   const { loading, request, error } = useHttp();
-  const { token } = useAuth();
+  const { token, role } = useAuth();
 
-  async function requestRecords(params) {
-    // params.projects_id = selectedId;
-
+  async function requestRecords() {
     try {
       const responceRecords = await request({
         url: '/records',
         method: 'get',
         bearerToken: token,
-        params,
       });
 
       return responceRecords;
     } catch (e) {}
   }
-  async function requestWorkers() {
+
+  async function requestStudents() {
+    let resultList = [];
+
     try {
-      const responceWorkers = await request({
-        url: '/workers',
+      const listStudentsId = await request({
+        url: '/auth/self',
         method: 'get',
         bearerToken: token,
       });
 
-      return responceWorkers;
+      for (let studentId of listStudentsId) {
+        const responceStudent = await request({
+          url: '/auth/' + studentId,
+          method: 'get',
+          bearerToken: token,
+        });
+
+        resultList.push(responceStudent);
+      }
     } catch (e) {}
+
+    return resultList;
   }
+
   async function updateRecord(newDataRecord) {
     try {
       const responceRecord = await request({
@@ -43,8 +54,6 @@ export function useRecordsHttp() {
     } catch (e) {}
   }
   async function createRecord(newDataRecord) {
-    // newDataRecord.projects_id = selectedId;
-
     try {
       const responceRecord = await request({
         url: '/records/create',
@@ -72,9 +81,10 @@ export function useRecordsHttp() {
     deleteRecord,
     createRecord,
     updateRecord,
-    requestWorkers,
     requestRecords,
+    requestStudents,
     loading,
     error,
+    role,
   };
 }
