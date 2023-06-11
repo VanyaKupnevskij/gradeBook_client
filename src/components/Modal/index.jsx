@@ -51,12 +51,7 @@ function Modal({
         </button>
         <dl className={styles.content}>
           {values.map((data) => {
-            if (
-              (!data.value && !isInput) ||
-              data.type_display === 'none' ||
-              (data.type_display === 'readonly' && isInput)
-            )
-              return;
+            if ((!data.value && !isInput) || data.type_display === 'none') return;
 
             return (
               <div key={data.title} className={styles.row}>
@@ -64,7 +59,11 @@ function Modal({
                   {data.type === 'number' ? data.title + ' (грн)' : data.title}
                 </dt>
                 <dd className={styles.row_value}>
-                  {isInput ? renderInput(data, handleChangeInput) : <>{data.value}</>}
+                  {isInput && data.type_display === 'all' ? (
+                    renderInput(data, handleChangeInput)
+                  ) : (
+                    <>{data.value}</>
+                  )}
                 </dd>
               </div>
             );
@@ -73,7 +72,7 @@ function Modal({
         <div className={styles.controls}>
           {hasDelete && (
             <SecondaryButton
-              onClick={() => onClickDelete(values.find((value) => value.name === 'id').value)}>
+              onClick={() => onClickDelete(values.find((value) => value.name === '_id').value)}>
               Видалити
             </SecondaryButton>
           )}

@@ -46,7 +46,7 @@ export function useRecordsHttp() {
   async function updateRecord(newDataRecord) {
     try {
       const responceRecord = await request({
-        url: '/records/update/' + newDataRecord.id,
+        url: '/records/' + newDataRecord._id,
         method: 'put',
         bearerToken: token,
         data: newDataRecord,
