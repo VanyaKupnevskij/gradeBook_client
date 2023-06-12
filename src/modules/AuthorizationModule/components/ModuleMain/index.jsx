@@ -150,12 +150,20 @@ function AuthorizationModule() {
             />
           </>
         )}
-        <Button className={styles.submit_button} onClick={handleClickSubmit} disabled={loading}>
-          {loading ? 'Завантажуємо...' : isLogin ? 'Увійти' : 'Зареєструватися'}
-        </Button>
-        <p className={styles.another_link} onClick={handleChangeType}>
-          {isLogin ? 'реєстрація' : 'вхід'}
-        </p>
+        {role === 'admin' ? (
+          <>
+            <Button className={styles.submit_button} onClick={handleClickSubmit} disabled={loading}>
+              {loading ? 'Завантажуємо...' : isLogin ? 'Увійти' : 'Зареєструватися'}
+            </Button>
+            <p className={styles.another_link} onClick={handleChangeType}>
+              {isLogin ? 'реєстрація' : 'вхід'}
+            </p>
+          </>
+        ) : (
+          <Button className={styles.submit_button} onClick={handleClickSubmit} disabled={loading}>
+            Увійти
+          </Button>
+        )}
       </div>
     </>
   );

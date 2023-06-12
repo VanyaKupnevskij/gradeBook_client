@@ -21,7 +21,7 @@ import { useState } from 'react';
 
 function MainPage() {
   const [offsetSlider, setOffsetSlider] = useState(0);
-  const maxOffsetSlider = 200;
+  const maxOffsetSlider = 100;
   const minOffsetSlider = 0;
   const stepOffsetSlider = 100;
 
@@ -64,10 +64,10 @@ function MainPage() {
                       style={{ '--offset-slider': offsetSlider + '%' }}>
                       <div className={styles.top__slider_item}>
                         <div className={styles.top__slider_info}>
-                          <h2 className={styles.top__slider_title}>Радій від роботи</h2>
+                          <h2 className={styles.top__slider_title}>Радій від навчання</h2>
                           <p className={styles.top__slider_text}>
-                            Наш сервіс дозволить вам не тримати у голові всі розрахунки та
-                            статистичні дані. Зберігайте все в одному місці та контролюйте
+                            Наш сервіс дозволить вам не тримати записи у великих журналах.
+                            Зберігайте все в одному місці та контролюйте
                           </p>
                         </div>
                         <img
@@ -81,7 +81,7 @@ function MainPage() {
                           <h2 className={styles.top__slider_title}>Розраховуй не в голові</h2>
                           <p className={styles.top__slider_text}>
                             Аналізуйте не на бумазі. Використовуйте сучасні технології для
-                            покращення вашої конверсії в бізнесі або стартапі
+                            покращення аналізу ваших оцінок як учня та котролю як вчителю
                           </p>
                         </div>
                         <img
@@ -89,20 +89,6 @@ function MainPage() {
                           src={slider_img3Image}
                           alt="image slider"
                         />
-                      </div>
-                      <div className={styles.top__slider_item}>
-                        <img
-                          className={styles.top__slider_img}
-                          src={slider_img2Image}
-                          alt="image slider"
-                        />
-                        <div className={styles.top__slider_info}>
-                          <h2 className={styles.top__slider_title}>Нагни бізнес!</h2>
-                          <p className={styles.top__slider_text}>
-                            З нашим сервісом ви зможете вирватися вперед у керуванні бізнесом. Він
-                            стане повністю контрольованим та підвласним вам
-                          </p>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -112,7 +98,7 @@ function MainPage() {
                   <div className={styles.container_fluid}>
                     <h3 className={styles.new_collection__title}>Перегляньте наші можливості</h3>
                     <p className={styles.new_collection__text}>
-                      Наш сервіс предоставляє різноманітні функції для керування і аналізу даних.
+                      Наш сервіс предоставляє різноманітні функції для керування і аналізу оцінок.
                       Спробуйте те, що буде для вас найбільш зручним
                     </p>
                     <div className={styles.collection}>
@@ -123,10 +109,8 @@ function MainPage() {
                           alt="collection image"
                         />
                         <div className={styles.collection__info}>
-                          <h6 className={styles.collection__info_title}>Прораховані дані</h6>
-                          <p className={styles.collection__info_text}>
-                            Маржинальність, рентабельність та інше
-                          </p>
+                          <h6 className={styles.collection__info_title}>Перегляд журналу</h6>
+                          <p className={styles.collection__info_text}>Всі оцінки учнів</p>
                         </div>
                       </div>
                       <div className={styles.collection__item}>
@@ -136,9 +120,9 @@ function MainPage() {
                           alt="collection image"
                         />
                         <div className={styles.collection__info}>
-                          <h6 className={styles.collection__info_title}>Фільтровані таблиці</h6>
+                          <h6 className={styles.collection__info_title}>Перегляд деталей</h6>
                           <p className={styles.collection__info_text}>
-                            Таблиці прибутків та витрат
+                            Перегляд для учня, редагування для вчителя
                           </p>
                         </div>
                       </div>
@@ -149,8 +133,8 @@ function MainPage() {
                           alt="collection image"
                         />
                         <div className={styles.collection__info}>
-                          <h6 className={styles.collection__info_title}>Редагування записів</h6>
-                          <p className={styles.collection__info_text}>Зміна значень всіх полів</p>
+                          <h6 className={styles.collection__info_title}>Фільтрація</h6>
+                          <p className={styles.collection__info_text}>Оберіть проміжок дат</p>
                         </div>
                       </div>
                       <div className={styles.collection__item}>
@@ -160,9 +144,9 @@ function MainPage() {
                           alt="collection image"
                         />
                         <div className={styles.collection__info}>
-                          <h6 className={styles.collection__info_title}>Керування працівниками</h6>
+                          <h6 className={styles.collection__info_title}>Адміністрування</h6>
                           <p className={styles.collection__info_text}>
-                            Створення, видалення, перегляд
+                            Видаляйте, прив'язуйте учнів та вчителів
                           </p>
                         </div>
                       </div>
@@ -173,9 +157,9 @@ function MainPage() {
                           alt="collection image"
                         />
                         <div className={styles.collection__info}>
-                          <h6 className={styles.collection__info_title}>Графічне відображення</h6>
+                          <h6 className={styles.collection__info_title}>Особистий кабінет</h6>
                           <p className={styles.collection__info_text}>
-                            Графіки прибутків та витрат
+                            Зручний вхід та перегляд профілю
                           </p>
                         </div>
                       </div>
@@ -186,12 +170,11 @@ function MainPage() {
                 <section className={styles.decor}>
                   <div className={styles.container}>
                     <h2 className={styles.decor__title}>
-                      Працюйте <br />
-                      разом з командою
+                      Працюйте <br />з комфортом
                     </h2>
                     <p className={styles.decor__text}>
-                      Ви можете заходити під одним акаунтом та редагувати дані обраного проекту,
-                      переглядати у різному вигляді ці дані та обговорювати з колегами
+                      Тепер зручніше налаштувати процес навчання і зі сторони адміністрації, і зі
+                      сторони вчителя а також і учень може зручно онлайн слідкувати за оцінюванням
                     </p>
                   </div>
                 </section>
@@ -204,29 +187,29 @@ function MainPage() {
                         <div
                           className={`${styles.how_work__item} ${styles.how_work__item__consultation}`}>
                           <img className={styles.how_work__item_img} src={work_icon1Image} alt="" />
-                          <h6 className={styles.how_work__item_title}>Розробка ідеї</h6>
+                          <h6 className={styles.how_work__item_title}>Адміністрування</h6>
                           <p className={styles.how_work__item_text}>
-                            Все починається з іновайційної ідеї вашого майбутнього продукта.
-                            Створіть проект та дайте йому назву, котра буде запам'ятовуватися одразу
+                            Все починається з реєстрації учнів та вчителів у системі а також їх
+                            прив'язування одне до одного
                           </p>
                         </div>
                         <div
                           className={`${styles.how_work__item} ${styles.how_work__item__production}`}>
                           <img className={styles.how_work__item_img} src={work_icon3Image} alt="" />
-                          <h6 className={styles.how_work__item_title}>Ведення записів</h6>
+                          <h6 className={styles.how_work__item_title}>Перегляд</h6>
                           <p className={styles.how_work__item_text}>
-                            Насолоджуйтесь зручною роботою з даними та аналізуйте у зручному
-                            вигляді. Розширення у глибину тепер доступне і вам!
+                            Насолоджуйтесь зручною роботою з оцінками і переглядом коментарів,
+                            зауважень і як зі сторони вчетеля, так і зі сторони учня
                           </p>
                         </div>
                       </div>
                       <div
                         className={`${styles.how_work__item} ${styles.how_work__item__measurements}`}>
                         <img className={styles.how_work__item_img} src={work_icon2Image} alt="" />
-                        <h6 className={styles.how_work__item_title}>Ведення записів</h6>
+                        <h6 className={styles.how_work__item_title}>Оцінювання</h6>
                         <p className={styles.how_work__item_text}>
-                          Створюйте записи регулярно, щоб чітко відслідковувати ваші фінанси у
-                          проекті
+                          Вчителя виставляють оцінки, пишуть коментарі або зауваження. Відмічають
+                          кожного свого учня по датам
                         </p>
                       </div>
                     </div>
