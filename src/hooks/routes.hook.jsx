@@ -4,6 +4,7 @@ import ContactsPage from '../pages/Contacts';
 
 import LinkPage from '../pages/Link';
 import RecordsPage from '../pages/Records';
+import RecordsStudentPage from '../pages/RecordsStudent';
 
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -18,6 +19,8 @@ export function useRoutes(isAuthenticated, role) {
       {isAuthenticated &&
         (role === 'admin' ? (
           <Route path="/link" element={<LinkPage />} />
+        ) : role === 'student' ? (
+          <Route path="/marksstudent" element={<RecordsStudentPage />} />
         ) : (
           <Route path="/marks" element={<RecordsPage />} />
         ))}

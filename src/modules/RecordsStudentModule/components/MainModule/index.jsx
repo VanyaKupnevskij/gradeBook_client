@@ -34,20 +34,11 @@ const monthOptions = [
   { key: 12, value: 'Грудень' },
 ];
 
-function RecordsModule() {
-  const {
-    loading,
-    error,
-    deleteRecord,
-    createRecord,
-    updateRecord,
-    requestRecords,
-    requestStudents,
-  } = useRecordsHttp();
+function RecordsStudentModule() {
+  const { loading, error, requestRecords } = useRecordsHttp();
 
-  const [students, setStudents] = useState([]);
+  const [teachers, setTeachers] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [regimModal, setRegimModal] = useState('update');
   const [dataModal, setDataModal] = useState([]);
   const [filterDate, setFilterDate] = useState({
     year: new Date(Date.now()).getFullYear(),
@@ -61,41 +52,36 @@ function RecordsModule() {
   async function loadRecords() {
     try {
       const responceRecords = await requestRecords();
-      const responceStudents = await requestStudents();
 
-      const formatedStudents = makeFormatedList(responceRecords, responceStudents);
+      const formatedStudents = makeFormatedList(responceRecords);
 
-      setStudents(formatedStudents);
+      setTeachers(formatedStudents);
     } catch (e) {
       console.error(e);
     }
   }
 
-  function makeFormatedList(records, students) {
-    let resultList = [];
+  function makeFormatedList(records) {
+    let resultTeachers = [];
 
-    for (let student of students) {
-      const studentRecords = records.filter((record, ind) => {
-        return record?.to?._id === student.id;
-      });
+    for (let record of records) {
+      const existTeacher = resultTeachers.filter((teacher) => teacher._id === record.from._id)[0];
 
-      resultList.push({
-        _id: student.id,
-        name: student.name,
-        recordsInfo: studentRecords,
-      });
+      if (existTeacher) {
+        existTeacher.recordsInfo.push(record);
+      } else {
+        resultTeachers.push({
+          _id: record.from._id,
+          name: record.from.name,
+          recordsInfo: [record],
+        });
+      }
     }
 
-    return resultList;
+    return resultTeachers;
   }
 
-  function handleClickCell({ isCreate, recordsInfo }) {
-    if (isCreate) {
-      setRegimModal('create');
-    } else {
-      setRegimModal('update');
-    }
-
+  function handleClickCell(recordsInfo) {
     const tempDataModal = JSON.parse(JSON.stringify(tamplateDataModal));
 
     for (const [key, value] of Object.entries(recordsInfo)) {
@@ -126,32 +112,6 @@ function RecordsModule() {
     setShowModal(false);
   }
 
-  async function handleClickDelete(id) {
-    handleCloseModal();
-
-    await deleteRecord(id);
-
-    await loadRecords();
-  }
-
-  async function handleSubmitModal(newValues) {
-    const formatedValues = {};
-
-    for (let parameter of newValues) {
-      formatedValues[parameter.name] = parameter.value;
-    }
-
-    if (regimModal === 'update') {
-      await updateRecord(formatedValues);
-    } else {
-      await createRecord(formatedValues);
-    }
-
-    handleCloseModal();
-
-    await loadRecords();
-  }
-
   function handleChangeYear(year) {
     setFilterDate({ ...filterDate, year });
   }
@@ -166,18 +126,7 @@ function RecordsModule() {
 
   return (
     <div className={styles.root}>
-      {showModal && (
-        <Modal
-          title={'Деталі запису'}
-          datas={dataModal}
-          onClose={handleCloseModal}
-          onChange={handleSubmitModal}
-          onClickDelete={handleClickDelete}
-          isInput
-          hasDelete
-          regimModal={regimModal}
-        />
-      )}
+      {showModal && <Modal title={'Деталі запису'} datas={dataModal} onClose={handleCloseModal} />}
       {error ? (
         <div className={styles.error_message}>{error.message}</div>
       ) : (
@@ -212,52 +161,28 @@ function RecordsModule() {
                 </tr>
               </thead>
               <tbody>
-                {students.map((student) => {
+                {teachers.map((teacher) => {
                   return (
-                    <tr key={student._id}>
+                    <tr key={teacher._id}>
                       <td key={0} className={styles.td_name}>
-                        {student.name}
+                        {teacher.name}
                       </td>
                       {daysListMarks.map((day) => {
-                        const record = student.recordsInfo.find((record) => {
+                        const record = teacher.recordsInfo.find((record) => {
                           return (
                             new Date(record.date).toDateString() ===
                             new Date(`${filterDate.year}-${filterDate.month}-${day}`).toDateString()
                           );
                         });
 
-                        if (!record) {
+                        if (record) {
                           return (
-                            <td
-                              key={day}
-                              onClick={() =>
-                                handleClickCell({
-                                  isCreate: true,
-                                  recordsInfo: {
-                                    _id: null,
-                                    from: null,
-                                    to: { _id: student._id },
-                                    date: new Date(`${filterDate.year}-${filterDate.month}-${day}`),
-                                    status: 'Не вказано',
-                                    comment: '',
-                                    mark: 0,
-                                  },
-                                })
-                              }></td>
-                          );
-                        } else {
-                          return (
-                            <td
-                              key={day}
-                              onClick={() =>
-                                handleClickCell({
-                                  isCreate: false,
-                                  recordsInfo: record,
-                                })
-                              }>
+                            <td key={day} onClick={() => handleClickCell(record)}>
                               {record.mark}
                             </td>
                           );
+                        } else {
+                          return <td key={day}></td>;
                         }
                       })}
                     </tr>
@@ -272,4 +197,4 @@ function RecordsModule() {
   );
 }
 
-export default RecordsModule;
+export default RecordsStudentModule;

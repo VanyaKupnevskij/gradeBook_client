@@ -39,6 +39,13 @@ function SideNavbar({ currentTab }) {
             <IconLink linkPath="/link" icon={<WorkersIcon />} isActive={currentTab === 'link'}>
               Зв'язання
             </IconLink>
+          ) : role === 'student' ? (
+            <IconLink
+              linkPath="/marksstudent"
+              icon={<RecordsIcon />}
+              isActive={currentTab === 'marks'}>
+              Записи
+            </IconLink>
           ) : (
             <IconLink linkPath="/marks" icon={<RecordsIcon />} isActive={currentTab === 'marks'}>
               Записи

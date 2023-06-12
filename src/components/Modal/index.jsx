@@ -56,7 +56,7 @@ function Modal({
             return (
               <div key={data.title} className={styles.row}>
                 <dt className={styles.row_title}>
-                  {data.type === 'number' ? data.title + ' (грн)' : data.title}
+                  {data.type === 'number' ? data.title : data.title}
                 </dt>
                 <dd className={styles.row_value}>
                   {isInput && data.type_display === 'all' ? (

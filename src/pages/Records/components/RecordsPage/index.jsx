@@ -9,7 +9,7 @@ function RecordsPage() {
   return (
     <div className={globalStyles.container}>
       <div className={globalStyles.inner}>
-        <SideNavbar currentTab="records" />
+        <SideNavbar currentTab="marks" />
 
         <div className={pageGlobalStyles.content}>
           <h1 className={pageGlobalStyles.title}>Записи</h1>
