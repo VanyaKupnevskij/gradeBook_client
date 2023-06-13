@@ -22,8 +22,8 @@ function AuthorizationModule() {
   const [isLogin, setIsLogin] = useState(true);
 
   const listRoles = [
-    { key: 'student', value: 'Учень' },
-    { key: 'teacher', value: 'Вчитель' },
+    { key: 'student', value: 'Студент' },
+    { key: 'teacher', value: 'Викладач' },
     { key: 'admin', value: 'Адмін' },
   ];
 
@@ -87,7 +87,7 @@ function AuthorizationModule() {
             </div>
             <div className={styles.row}>
               <dt>Роль</dt>
-              <dd>{{ teacher: 'Вчитель', student: 'Учень', admin: 'Адміністратор' }[role]}</dd>
+              <dd>{{ teacher: 'Викладач', student: 'Студент', admin: 'Адміністратор' }[role]}</dd>
             </div>
             {role === 'teacher' && (
               <div className={styles.row}>

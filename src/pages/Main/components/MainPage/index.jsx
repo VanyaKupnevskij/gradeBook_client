@@ -81,7 +81,7 @@ function MainPage() {
                           <h2 className={styles.top__slider_title}>Розраховуй не в голові</h2>
                           <p className={styles.top__slider_text}>
                             Аналізуйте не на бумазі. Використовуйте сучасні технології для
-                            покращення аналізу ваших оцінок як учня та котролю як вчителю
+                            покращення аналізу ваших оцінок як студента та котролю як викладачу
                           </p>
                         </div>
                         <img
@@ -122,7 +122,7 @@ function MainPage() {
                         <div className={styles.collection__info}>
                           <h6 className={styles.collection__info_title}>Перегляд деталей</h6>
                           <p className={styles.collection__info_text}>
-                            Перегляд для учня, редагування для вчителя
+                            Перегляд для студента, редагування для викладача
                           </p>
                         </div>
                       </div>
@@ -146,7 +146,7 @@ function MainPage() {
                         <div className={styles.collection__info}>
                           <h6 className={styles.collection__info_title}>Адміністрування</h6>
                           <p className={styles.collection__info_text}>
-                            Видаляйте, прив'язуйте учнів та вчителів
+                            Видаляйте, прив'язуйте студентів та викладачів
                           </p>
                         </div>
                       </div>
@@ -174,7 +174,8 @@ function MainPage() {
                     </h2>
                     <p className={styles.decor__text}>
                       Тепер зручніше налаштувати процес навчання і зі сторони адміністрації, і зі
-                      сторони вчителя а також і учень може зручно онлайн слідкувати за оцінюванням
+                      сторони викладача а також і студент може зручно онлайн слідкувати за
+                      оцінюванням
                     </p>
                   </div>
                 </section>
@@ -189,8 +190,8 @@ function MainPage() {
                           <img className={styles.how_work__item_img} src={work_icon1Image} alt="" />
                           <h6 className={styles.how_work__item_title}>Адміністрування</h6>
                           <p className={styles.how_work__item_text}>
-                            Все починається з реєстрації учнів та вчителів у системі а також їх
-                            прив'язування одне до одного
+                            Все починається з реєстрації студентів та викладачів у системі а також
+                            їх прив'язування одне до одного
                           </p>
                         </div>
                         <div
@@ -199,7 +200,7 @@ function MainPage() {
                           <h6 className={styles.how_work__item_title}>Перегляд</h6>
                           <p className={styles.how_work__item_text}>
                             Насолоджуйтесь зручною роботою з оцінками і переглядом коментарів,
-                            зауважень і як зі сторони вчетеля, так і зі сторони учня
+                            зауважень і як зі сторони викладача, так і зі сторони студента
                           </p>
                         </div>
                       </div>
@@ -208,8 +209,8 @@ function MainPage() {
                         <img className={styles.how_work__item_img} src={work_icon2Image} alt="" />
                         <h6 className={styles.how_work__item_title}>Оцінювання</h6>
                         <p className={styles.how_work__item_text}>
-                          Вчителя виставляють оцінки, пишуть коментарі або зауваження. Відмічають
-                          кожного свого учня по датам
+                          Викладачі виставляють оцінки, пишуть коментарі або зауваження. Відмічають
+                          кожного свого студента по датам
                         </p>
                       </div>
                     </div>
